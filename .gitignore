@@ -1,0 +1,8 @@
+.repl
+.lein-plugins/
+.lein-deps-sum
+.lein-repl-history
+.lein-failures
+.nrepl-port
+target/
+.DS_Store
