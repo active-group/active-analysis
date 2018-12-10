@@ -8,7 +8,7 @@
   (map #(neanderthal/vctr native/native-double [%])
        [-3.2 -4 -3.1 0 1 0.5 5 6 7 8 5.7]))
 
-(def initial-cendroids
+(def initial-centroids
   (map #(neanderthal/vctr native/native-double [%])
        [1 2 3]))
 
@@ -16,4 +16,4 @@
                  3
                  100
                  (comp neanderthal/nrm1 (partial neanderthal/axpy -1))
-                 initial-cendroids)
+                 initial-centroids)

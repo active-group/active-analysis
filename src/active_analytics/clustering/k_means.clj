@@ -2,10 +2,13 @@
   (:require [active-analytics.linear-algebra :as lina]))
 
 (defn nearest-centroid
+  "Finds the centroid closest to a point `p`."
   [p centroids distance-fn]
   (apply min-key (partial distance-fn p) centroids))
 
 (defn cluster
+  "Builds clusters by assigning each point to its
+  nearest centroid."
   [data centroids distance-fn]
   (merge
    (into {} (map (fn [c] [c nil])
@@ -13,7 +16,9 @@
    (group-by #(nearest-centroid % centroids distance-fn)
              data)))
 
-(defn iterate
+(defn step
+  "Calculates the next generation of centroids from
+  the current one."
   [data centroids distance-fn]
   (let [clusters (cluster data centroids distance-fn)]
     (map (fn [c]
@@ -27,14 +32,16 @@
          centroids)))
 
 (defn k-means
-  [data k threshold distance-fn initial-cendroids]
-  (loop [centroids initial-cendroids]
-    (let [next-centroids (iterate data centroids distance-fn)]
+  "Performs k-means clustering on a data set, given the
+  desired number of clusters `k`."
+  [data k threshold distance-fn initial-centroids]
+  (loop [centroids initial-centroids]
+    (let [next-centroids (step data centroids distance-fn)]
       (if (every? true?
                   (map (fn [c next-c]
                          (< (distance-fn c next-c)
                             threshold))
                        centroids
                        next-centroids))
-        (cluster data next-centroids distance-fn)
+        (vals (cluster data next-centroids distance-fn))
         (recur next-centroids)))))
