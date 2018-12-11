@@ -2,6 +2,23 @@
   (:require [active-analytics.clustering.k-means :as k-means]
             [active-analytics.linear-algebra :as lina]))
 
+(defn create-affinity-matrix!
+  "Creates a normalized affinity matrix from `data`
+  and a given function that calculates the distance
+  between two data points."
+  [data distance-fn]
+  (let [n (count data)
+        m (lina/ge n n)
+        _ (dorun (map-indexed (fn [i x]
+                                (dorun (map (fn [j]
+                                              (let [y (nth data j)
+                                                    dist (distance-fn x y)]
+                                                (lina/entry! m i j dist)
+                                                (lina/entry! m j i dist)))
+                                            (range i n))))
+                              data))]
+    m))
+
 (defn step
   "Given a (normalized) affinity matrix and a vector `v`,
   calculate the next vector by using power iteration."

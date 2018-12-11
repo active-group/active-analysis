@@ -6,6 +6,16 @@
 ;; TODO:
 ;; - functions to create vectors/matrices/numbers
 ;;   -> see/use neanderthal.core/vctr, /ge, ...
+;; - use the 'real' namespace for more efficient functions where applicable
+
+(defn ge
+  ([m n]
+   (neanderthal/ge native/native-double
+                   m
+                   n))
+  ([a]
+   (neanderthal/ge native/native-double
+                   a)))
 
 (defmacro scal
   "Multiply a scalar `a` with a matrix `m`."
@@ -26,7 +36,6 @@
 (defn xpy
   "Adds matrices or vectors."
   [m1 m2]
-  (println m1 m2)
   (neanderthal/xpy m1
                    m2))
 
@@ -52,6 +61,12 @@
 (defn entry
   [x i]
   (neanderthal/entry x i))
+
+(defn entry!
+  ([x i val]
+   (neanderthal/entry! x i val))
+  ([x i j val]
+   (neanderthal/entry! x i j val)))
 
 (defn imin
   [x]
