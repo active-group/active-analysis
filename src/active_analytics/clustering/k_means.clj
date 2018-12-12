@@ -34,14 +34,18 @@
 (defn k-means
   "Performs k-means clustering on a data set, given the
   desired number of clusters `k`."
-  [data k threshold distance-fn initial-centroids]
-  (loop [centroids initial-centroids]
-    (let [next-centroids (step data centroids distance-fn)]
-      (if (every? true?
-                  (map (fn [c next-c]
-                         (< (distance-fn c next-c)
-                            threshold))
-                       centroids
-                       next-centroids))
-        (vals (cluster data next-centroids distance-fn))
-        (recur next-centroids)))))
+  ([data k threshold distance-fn]
+   (let [initial-centroids (->> (shuffle data)
+                                (take k))]
+     (k-means data k threshold ditance-fn initial-centroids)))
+  ([data k threshold distance-fn initial-centroids]
+   (loop [centroids initial-centroids]
+     (let [next-centroids (step data centroids distance-fn)]
+       (if (every? true?
+                   (map (fn [c next-c]
+                          (< (distance-fn c next-c)
+                             threshold))
+                        centroids
+                        next-centroids))
+         (vals (cluster data next-centroids distance-fn))
+         (recur next-centroids))))))
