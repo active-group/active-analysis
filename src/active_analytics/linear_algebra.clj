@@ -1,5 +1,6 @@
 (ns active-analytics.linear-algebra
   (:require [uncomplicate.neanderthal.core :as neanderthal]
+            [uncomplicate.neanderthal.linalg :as linalg]
             [uncomplicate.neanderthal.math :as math]
             [uncomplicate.neanderthal.native :as native]))
 
@@ -16,6 +17,38 @@
   ([a]
    (neanderthal/ge native/native-double
                    a)))
+
+(defn gd
+  [n source]
+  (neanderthal/gd native/native-double
+                  n
+                  source))
+
+(def mrows neanderthal/mrows)
+
+(def rows neanderthal/rows)
+
+(def sum neanderthal/sum)
+
+(defn mm
+  [a b]
+  (neanderthal/mm a b))
+
+(defn trf
+  [a]
+  (linalg/trf a))
+
+(defn tri
+  [a]
+  (linalg/tri a))
+
+(def invert (comp tri trf))
+
+(defn symmetric?
+  "FIXME: this is not identical to neanderthal/symmetric; use sy for creation"
+  [a]
+  (= (neanderthal/trans a)
+     a))
 
 (defmacro scal
   "Multiply a scalar `a` with a matrix `m`."
