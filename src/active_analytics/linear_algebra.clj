@@ -2,7 +2,8 @@
   (:require [uncomplicate.neanderthal.core :as neanderthal]
             [uncomplicate.neanderthal.linalg :as linalg]
             [uncomplicate.neanderthal.math :as math]
-            [uncomplicate.neanderthal.native :as native]))
+            [uncomplicate.neanderthal.native :as native]
+            [uncomplicate.neanderthal.vect-math :as vect-math]))
 
 ;; TODO:
 ;; - functions to create vectors/matrices/numbers
@@ -60,6 +61,10 @@
   [m]
   (neanderthal/nrm1 m))
 
+(defn nrmi
+  [m]
+  (neanderthal/nrmi m))
+
 (defmacro mv
   "Multiplies a matrix `m` with a vector `v`."
   [m v]
@@ -112,3 +117,19 @@
 (defn abs
   [x]
   (math/abs x))
+
+(defn minimum
+  [v]
+  (->> v
+       imin
+       (entry v)))
+
+(defn maximum
+  [v]
+  (->> v
+       imax
+       (entry v)))
+
+(defn vect-abs
+  [v]
+  (vect-math/abs v))

@@ -37,7 +37,7 @@
   ([data k threshold distance-fn]
    (let [initial-centroids (->> (shuffle data)
                                 (take k))]
-     (k-means data k threshold ditance-fn initial-centroids)))
+     (k-means data k threshold distance-fn initial-centroids)))
   ([data k threshold distance-fn initial-centroids]
    (loop [centroids initial-centroids]
      (let [next-centroids (step data centroids distance-fn)]

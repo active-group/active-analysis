@@ -5,8 +5,7 @@
             [clojure.test :refer [deftest is testing]]
             [clojure.test.check :as check]
             [clojure.test.check.generators :as gen]
-            [clojure.test.check.properties :as prop]
-            [uncomplicate.neanderthal.core :as neanderthal]))
+            [clojure.test.check.properties :as prop]))
 
 (deftest t-create-affinity-matrix!
   (testing "Simple distance examples"
@@ -41,3 +40,27 @@
                          row-sums (map lina/sum (lina/rows w))]
                      (every? #(test-util/close? % 1 0.001)
                              row-sums))))))
+
+(deftest t-initial-vector
+  (let [a (pic/create-affinity-matrix! [[1] [2] [3]]
+                                       (test-util/p-distance 1))]
+    (is (= (lina/vctr [0 1 2])
+           (pic/initial-vector a)))
+    (is (= (lina/vctr [0.375 0.25 0.375])
+           (pic/initial-vector a :range? false)))))
+
+(deftest t-scale
+  (is (test-util/close? 1.7
+                        (pic/scale (lina/vctr [-1.4 0.1 -0.4 0.3]))
+                        1e-5)))
+
+(deftest t-threshold
+  (is (test-util/close? 1e-5
+                        (pic/threshold 1)
+                        1e-10))
+  (is (test-util/close? 1e-7
+                        (pic/threshold 100)
+                        1e-10))
+  (is (test-util/close? 1e-8
+                        (pic/threshold 1e10)
+                        1e-10)))
