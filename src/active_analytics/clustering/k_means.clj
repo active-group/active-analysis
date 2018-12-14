@@ -35,8 +35,7 @@
   "Performs k-means clustering on a data set, given the
   desired number of clusters `k`."
   ([data k threshold distance-fn]
-   (let [initial-centroids (->> (shuffle data)
-                                (take k))]
+   (let [initial-centroids (->> data shuffle (take k))]
      (k-means data k threshold distance-fn initial-centroids)))
   ([data k threshold distance-fn initial-centroids]
    (loop [centroids initial-centroids]

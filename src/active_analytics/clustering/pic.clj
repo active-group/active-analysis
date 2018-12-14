@@ -107,9 +107,7 @@
                 (<= (lina/nrmi (lina/vect-abs (lina/subtract delta
                                                              prev-delta)))
                     epsilon))
-          (do (println "Power iteration finished after" i "steps")
-              (println "Scale:" (scale v-new))
-              v-new)
+          v-new
           (recur (inc i)
                  v-new
                  delta))))))

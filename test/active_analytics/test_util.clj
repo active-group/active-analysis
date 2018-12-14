@@ -1,5 +1,6 @@
 (ns active-analytics.test-util
-  (:require [clojure.test.check :as check]
+  (:require [clojure.test :refer [deftest is testing]]
+            [clojure.test.check :as check]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop]))
 
@@ -7,8 +8,16 @@
   "Tests whether two numbers `x` and `y` are within a
   certain distance `epsilon` from each other."
   [x y epsilon]
-  (< (Math/abs (- x y))
-     epsilon))
+  (<= (Math/abs (- x y))
+      epsilon))
+
+(deftest t-close?
+  (is (close? 3.1 3.1 1e-5))
+  (is (close? 5 4 1))
+  (is (not (close? 10 11 0.9)))
+  (is (close? 1e-27 1e-28 1e-27))
+  (is (close? -2 2 10))
+  (is (not (close? 0 0.1 0.05))))
 
 (def ^:dynamic *quickcheck-size* 100)
 
@@ -17,12 +26,9 @@
   use it with `clojure.test` and multiple 'testing' blocks."
   [property]
   `(let [result# (check/quick-check ~*quickcheck-size*
-                                   ~property)]
+                                    ~property)]
      (or (clojure.test/is (:result result#))
          (clojure.test/is (= nil result#)))))
-
-(macroexpand-1 '(is-quickcheck (prop/for-all [v gen/double]
-                                             (= 1 v))))
 
 (defn random-data-generator
   "Returns a generator that generates a Clojure vector of
@@ -38,21 +44,22 @@
                                                              :max 10000000})
                                                dim)
                                    {:min-elements 2
-                                    :max-elemets max-number-of-data-points}))))
+                                    :max-elements max-number-of-data-points}))))
 
 (defn circular-cluster-generator
   "Returns a generator that generates `number-of-data-points`
-  data points in dimension `dimension` randomly in a ball
-  around `center` with a given `radius` w.r.t. the 1-norm."
-  [dimension center radius number-of-data-points]
-  (gen/vector (gen/bind
-               (gen/vector (gen/double* {:NaN? false
-                                         :min (- radius)
-                                         :max radius})
-                           dimension)
-               (fn [v]
-                 (gen/elements [(mapv + center v)])))
-              number-of-data-points))
+  data points randomly in a ball with radius `radius`
+  (w.r.t. the 1-norm) around `center`."
+  [center radius number-of-data-points]
+  (let [dimension (count center)]
+    (gen/vector (gen/bind
+                 (gen/vector (gen/double* {:NaN? false
+                                           :min (- radius)
+                                           :max radius})
+                             dimension)
+                 (fn [v]
+                   (gen/elements [(mapv + center v)])))
+                number-of-data-points)))
 
 (defn p-distance
   "Gets a function that calculates the distance between

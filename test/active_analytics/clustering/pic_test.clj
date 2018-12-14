@@ -38,7 +38,7 @@
                    (let [w (pic/create-normalized-affinity-matrix! data
                                                                    (test-util/p-distance p))
                          row-sums (map lina/sum (lina/rows w))]
-                     (every? #(test-util/close? % 1 0.001)
+                     (every? #(test-util/close? % 1 1e-5)
                              row-sums))))))
 
 (deftest t-initial-vector
@@ -64,3 +64,29 @@
   (is (test-util/close? 1e-8
                         (pic/threshold 1e10)
                         1e-10)))
+
+(deftest t-pic-only
+  (is (every? true?
+              (for [i (range test-util/*quickcheck-size*)]
+                (let [size-1 (gen/generate (gen/choose 2 50) i)
+                      data (gen/generate (gen/let [size-2 (gen/choose 2 50)
+                                                   cluster-1 (test-util/circular-cluster-generator [0 -1 1] 2.4 size-1)
+                                                   cluster-2 (test-util/circular-cluster-generator [5 3 -7] 1.91 size-2)]
+                                           (concat cluster-1 cluster-2))
+                                         i)
+                      pic-result (pic/pic-only (pic/create-normalized-affinity-matrix! data
+                                                                                       (test-util/p-distance 2))
+                                               500)
+                      left (take size-1 pic-result)
+                      right (drop size-1 pic-result)
+                      mean #(/ (apply + %)
+                               (count %))]
+                  ;; Sanity check: assert that no points 'jump' into the other cluster
+                  (or (if (< (mean left)
+                             (mean right))
+                        (< (apply max left)
+                           (apply min right))
+                        (> (apply min left)
+                           (apply max right)))
+                      (println "Fail:" data)
+                      (println "Clustered:" (map identity pic-result))))))))
