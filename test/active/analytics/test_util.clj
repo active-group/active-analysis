@@ -1,4 +1,4 @@
-(ns active-analytics.test-util
+(ns active.analytics.test-util
   (:require [clojure.test :refer [deftest is testing]]
             [clojure.test.check :as check]
             [clojure.test.check.generators :as gen]

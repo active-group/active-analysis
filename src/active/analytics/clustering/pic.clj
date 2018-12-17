@@ -1,6 +1,6 @@
-(ns active-analytics.clustering.pic
-  (:require [active-analytics.clustering.k-means :as k-means]
-            [active-analytics.linear-algebra :as lina]))
+(ns active.analytics.clustering.pic
+  (:require [active.analytics.clustering.k-means :as k-means]
+            [active.analytics.linear-algebra :as lina]))
 
 (defn create-affinity-matrix!
   "Creates an affinity matrix from `data` and a function
@@ -116,8 +116,8 @@
   "Performs power iteration clustering with an `affinity-matrix`,
   the desired number of clusters `k`, and a number of iterations
   and threshold which determine when to terminate the algorithm."
-  [affinity-matrix k max-number-of-iterations threshold]
-  (let [v-final (pic-only affinity-matrix max-number-of-iterations threshold)
+  [affinity-matrix k max-number-of-iterations]
+  (let [v-final (pic-only affinity-matrix max-number-of-iterations)
         min (lina/minimum v-final)
         max (lina/maximum v-final)
         initial-centroids (map #(+ min
@@ -129,12 +129,13 @@
                                         (lina/vctr [x i]))
                                       %)
         k-means-clusters (k-means/k-means (glue-with-index v-final)
-                                          k
-                                          threshold
                                           ;; FIXME: is using neanderthal to circumvent boxing possible?
                                           (fn [v w]
                                             (lina/abs (- (first v)
                                                          (first w))))
+                                          k
+                                          1e-5
+                                          50
                                           (glue-with-index initial-centroids))]
     (map (fn [cluster]
            (map (comp int second)

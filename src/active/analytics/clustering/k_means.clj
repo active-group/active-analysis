@@ -1,5 +1,5 @@
-(ns active-analytics.clustering.k-means
-  (:require [active-analytics.linear-algebra :as lina]))
+(ns active.analytics.clustering.k-means
+  (:require [active.analytics.linear-algebra :as lina]))
 
 (defn nearest-centroid
   "Finds the centroid closest to a point `p`."
@@ -34,17 +34,20 @@
 (defn k-means
   "Performs k-means clustering on a data set, given the
   desired number of clusters `k`."
-  ([data k threshold distance-fn]
+  ([data distance-fn k threshold max-number-of-iterations]
    (let [initial-centroids (->> data shuffle (take k))]
-     (k-means data k threshold distance-fn initial-centroids)))
-  ([data k threshold distance-fn initial-centroids]
-   (loop [centroids initial-centroids]
+     (k-means data distance-fn k threshold max-number-of-iterations initial-centroids)))
+  ([data distance-fn k threshold max-number-of-iterations initial-centroids]
+   (loop [centroids initial-centroids
+          i 1]
      (let [next-centroids (step data centroids distance-fn)]
-       (if (every? true?
-                   (map (fn [c next-c]
-                          (< (distance-fn c next-c)
-                             threshold))
-                        centroids
-                        next-centroids))
+       (if (or (>= i max-number-of-iterations)
+               (every? true?
+                       (map (fn [c next-c]
+                              (< (distance-fn c next-c)
+                                 threshold))
+                            centroids
+                            next-centroids)))
          (vals (cluster data next-centroids distance-fn))
-         (recur next-centroids))))))
+         (recur next-centroids
+                (inc i)))))))
