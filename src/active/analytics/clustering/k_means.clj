@@ -1,5 +1,5 @@
-(ns active.analytics.clustering.k-means
-  (:require [active.analytics.linear-algebra :as lina]))
+(ns active-analytics.clustering.k-means
+  (:require [active-analytics.linear-algebra :as lina]))
 
 (defn initial-centroids
   "Takes `k` random (distinct) elements from `data` to use

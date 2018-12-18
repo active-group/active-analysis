@@ -1,6 +1,6 @@
-(ns active.analytics.clustering.pic
-  (:require [active.analytics.clustering.k-means :as k-means]
-            [active.analytics.linear-algebra :as lina]))
+(ns active-analytics.clustering.pic
+  (:require [active-analytics.clustering.k-means :as k-means]
+            [active-analytics.linear-algebra :as lina]))
 
 (defn create-affinity-matrix!
   "Creates an affinity matrix from `data` and a function

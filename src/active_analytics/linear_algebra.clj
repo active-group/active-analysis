@@ -1,4 +1,4 @@
-(ns active.analytics.linear-algebra
+(ns active-analytics.linear-algebra
   (:require [uncomplicate.neanderthal.core :as neanderthal]
             [uncomplicate.neanderthal.linalg :as linalg]
             [uncomplicate.neanderthal.math :as math]

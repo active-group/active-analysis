@@ -1,7 +1,7 @@
-(ns active.analytics.clustering.pic-test
-  (:require [active.analytics.clustering.pic :as pic]
-            [active.analytics.linear-algebra :as lina]
-            [active.analytics.test-util :as test-util :refer [is-quickcheck]]
+(ns active-analytics.clustering.pic-test
+  (:require [active-analytics.clustering.pic :as pic]
+            [active-analytics.linear-algebra :as lina]
+            [active-analytics.test-util :as test-util :refer [is-quickcheck]]
             [clojure.test :refer [deftest is testing]]
             [clojure.test.check :as check]
             [clojure.test.check.generators :as gen]

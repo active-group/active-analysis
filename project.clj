@@ -1,4 +1,4 @@
-(defproject active-analytics "0.1.0"
+(defproject de.active-group/active-analytics "0.1.0"
   :description "Active Analytics: Clojure data analysis algorithms in use at Active Group"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
