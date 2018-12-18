@@ -128,16 +128,16 @@
         glue-with-index #(map-indexed (fn [i x]
                                         (lina/vctr [x i]))
                                       %)
-        k-means-clusters (k-means/k-means (glue-with-index v-final)
-                                          ;; FIXME: is using neanderthal to circumvent boxing possible?
-                                          (fn [v w]
-                                            (lina/abs (- (first v)
-                                                         (first w))))
-                                          k
-                                          1e-5
-                                          50
-                                          (glue-with-index initial-centroids))]
+        k-means-result (k-means/k-means (glue-with-index v-final)
+                                        ;; FIXME: is using neanderthal to circumvent boxing possible?
+                                        (fn [v w]
+                                          (lina/abs (- (first v)
+                                                       (first w))))
+                                        k
+                                        1e-5
+                                        50
+                                        (glue-with-index initial-centroids))]
     (map (fn [cluster]
            (map (comp int second)
                 cluster))
-         k-means-clusters)))
+         (:clusters k-means-result))))

@@ -88,9 +88,9 @@
   [v]
   `(neanderthal/dim ~v))
 
-(defmacro zero
+(defn zero
   [m]
-  `(neanderthal/zero ~m))
+  (neanderthal/zero m))
 
 (defn vctr
   [source]

@@ -61,6 +61,12 @@
                    (gen/elements [(mapv + center v)])))
                 number-of-data-points)))
 
+(defn real-distance
+  "Calculates the distance between two real numbers
+  `x` and `y`."
+  [x y]
+  (Math/abs (- x y)))
+
 (defn p-distance
   "Gets a function that calculates the distance between
   two vectors w.r.t. the `p`-norm."
