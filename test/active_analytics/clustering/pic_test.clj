@@ -30,6 +30,12 @@
                    (lina/symmetric? (pic/create-affinity-matrix! data
                                                                  (test-util/p-distance p)))))))
 
+(deftest t-degree-matrix
+  (is (= (lina/gd 3 [6 15 24])
+         (pic/degree-matrix (lina/ge [[1 2 3]
+                                      [4 5 6]
+                                      [7 8 9]])))))
+
 (deftest t-create-normalized-affinity-matrix!
   (testing "A normalized affinity matrix should be normalized"
     (is-quickcheck

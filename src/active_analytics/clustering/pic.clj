@@ -23,9 +23,11 @@
   This is a diagonal matrix where the entry of each row
   is the row sum of the corresponding row of `m`."
   [m]
-  (lina/gd (lina/mrows m)
-           (map lina/sum
-                (lina/rows m))))
+  (let [n (lina/mrows m)]
+    (lina/gd n
+             (lina/mv m
+                      (lina/vctr (repeat (lina/mrows m)
+                                         1))))))
 
 (defn normalize-affinity-matrix
   "Normalizes an affinity matrix by dividing each entry

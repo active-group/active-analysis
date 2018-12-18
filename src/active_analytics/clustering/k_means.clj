@@ -49,13 +49,13 @@
 
 (defn k-means
   "Performs k-means clustering on `data`, given the desired
-  number of clusters `k`, a function `distance-fn`that
+  number of clusters `k`, a function `distance-fn` that
   computes the distance between two data points, and a
   `max-number-of-iterations` after which to stop the
   algorithm.
 
   Takes keyword arguments `:k`, `:threshold`,
-  `initial-centroids`,and `:centroid-fn`.
+  `initial-centroids`, and `:centroid-fn`.
 
   - `:k` is the target number of clusters. If no `:k` is
     passed to [[k-means]], it will assume `:initial-centroids`
