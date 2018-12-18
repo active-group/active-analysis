@@ -65,7 +65,7 @@
   "Calculates the distance between two real numbers
   `x` and `y`."
   [x y]
-  (Math/abs (- x y)))
+  (Math/abs ^Double (- x y)))
 
 (defn p-distance
   "Gets a function that calculates the distance between

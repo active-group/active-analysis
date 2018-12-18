@@ -64,4 +64,21 @@
                                                         :threshold 1e-5
                                                         :centroid-fn average)]
                     (<= (count (:clusters k-means-result))
-                        2)))))))
+                        2))))))
+  (testing "Without a `threshold`, the maximum number of iterations will be performed"
+    (let [result (k-means/k-means [1 2 3 4 5 101 102 103 104 105]
+                                  test-util/real-distance
+                                  200
+                                  :k 2
+                                  :centroid-fn #(/ (apply + %) (count %)))]
+      (is (= 200
+             (:iterations result)))))
+  (testing "Algorithm may finish earlier when `threshold` is given"
+    (let [result (k-means/k-means [1 2 3 4 5 101 102 103 104 105]
+                                  test-util/real-distance
+                                  50
+                                  :threshold 1e-2
+                                  :initial-centroids [0 100]
+                                  :centroid-fn #(/ (apply + %) (count %)))]
+      (is (< (:iterations result)
+             10)))))

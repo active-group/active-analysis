@@ -80,12 +80,13 @@
            i 1]
       (let [next-centroids (step data centroids distance-fn centroid-fn)]
         (if (or (>= i max-number-of-iterations)
-                (every? true?
-                        (map (fn [c next-c]
-                               (< (distance-fn c next-c)
-                                  threshold))
-                             centroids
-                             next-centroids)))
+                (and threshold
+                     (every? true?
+                             (map (fn [c next-c]
+                                    (< (distance-fn c next-c)
+                                       threshold))
+                                  centroids
+                                  next-centroids))))
           (let [result (cluster data next-centroids distance-fn)]
             {:clusters (vals result)
              :iterations i})
