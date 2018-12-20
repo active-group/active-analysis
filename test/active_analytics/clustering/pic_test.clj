@@ -12,7 +12,7 @@
     (is (= (lina/ge [[0 0]
                      [0 0]])
            (pic/create-affinity-matrix! [2 2]
-                                        #(Math/abs (- %1 %2)))))
+                                        test-util/real-distance)))
     (is (= (lina/ge [[0 4 3]
                      [4 0 7]
                      [3 7 0]])

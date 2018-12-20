@@ -135,10 +135,10 @@
                                         (fn [v w]
                                           (lina/abs (- (first v)
                                                        (first w))))
-                                        k
-                                        1e-5
                                         50
-                                        (glue-with-index initial-centroids))]
+                                        :k k
+                                        :threshold 1e-5
+                                        :initial-centroids (glue-with-index initial-centroids))]
     (map (fn [cluster]
            (map (comp int second)
                 cluster))
