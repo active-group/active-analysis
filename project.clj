@@ -1,6 +1,6 @@
 (defproject de.active-group/active-analytics "0.1.0"
   :description "Active Analytics: Clojure data analysis algorithms in use at Active Group"
-  :url "http://example.com/FIXME"
+  :url "https://github.com/active-group/active-analytics"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.9.0"]

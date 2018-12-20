@@ -2,6 +2,16 @@
 
 A Clojure library containing analytic methods used in our projects. 
 
+#### Dependency information
+
+[Leiningen](https://github.com/technomancy/leiningen/)
+
+    [de.active-group/active-analytics "0.1.0"]
+
+[deps.edn](https://clojure.org/guides/deps_and_cli)
+
+    {de.active-group/active-analytics {:mvn/version "0.1.0"}}
+
 ## Usage
 
 So far, there are two implemented clustering algorithms:
