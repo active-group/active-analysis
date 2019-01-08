@@ -6,6 +6,7 @@
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/test.check "0.10.0-alpha3"]
                  ;;[org.nd4j/nd4j-native-platform "0.9.1"]
-                 [uncomplicate/neanderthal "0.20.4"]]
+                 [uncomplicate/neanderthal "0.20.4"]
+                 [org.clojure/math.combinatorics "0.1.4"]]
   :exclusions [[org.jcuda/jcuda-natives]
                [org.jcuda/jcublas-natives]])
