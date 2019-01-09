@@ -50,7 +50,7 @@
   Analogous to the silhouette width, this provides a
   measurement of how good the overall clustering is."
   [clusters distance-fn]
-  (util/average-or-zero (map (fn [cluster]
-                               (let [other-clusters (remove (partial = cluster) clusters)]
-                                 (average-silhouette-width cluster other-clusters distance-fn)))
-                             clusters)))
+  (->> clusters
+       (map #(let [other-clusters (remove (partial = %) clusters)]
+               (average-silhouette-width % other-clusters distance-fn)))
+       util/average-or-zero))
