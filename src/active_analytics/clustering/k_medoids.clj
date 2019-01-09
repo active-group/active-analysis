@@ -4,30 +4,34 @@
 
 (defn dissimilarity-map
   "Calculates a map of dissimilarities which is indexed by
-  unique combinations (pairs) of points."
+  all combinations (pairs) of points."
   [xs distance-fn]
-  (let [unique-pairs (combinatorics/combinations xs 2)]
-    (into {}
-          (map (fn [p]
-                 [p (apply distance-fn p)])
-               unique-pairs))))
+  (let [pairs (combinatorics/cartesian-product xs xs)]
+    (loop [remaining pairs
+           dissimilarities {}]
+      (if (seq remaining)
+        (let [[x y :as pair] (first remaining)
+              dissimilarity (or (get dissimilarities [y x])
+                                (distance-fn x y))]
+          (recur (rest remaining)
+                 (merge dissimilarities
+                        {pair dissimilarity})))
+        dissimilarities))))
 
 (defn dissimilarity
   "Looks up the dissimilarity of two points
   `x` and `y` in a dissimilarity map."
   [x y dissimilarities]
-  (or (get dissimilarities [x y])
-      (get dissimilarities [y x])
-      0))
+  (get dissimilarities [x y]))
 
 (defn dissimilarity-sum
   "Calculates the sum of dissimilarities of a point to
-  all other points.
-  Assumes that the point has dissimilarity 0 to itself."
+  all other points."
   [x xs dissimilarities]
-  (apply +
-         (map #(dissimilarity x % dissimilarities)
-              xs)))
+  (- (apply +
+          (map #(dissimilarity x % dissimilarities)
+               xs))
+     (dissimilarity x x dissimilarities)))
 
 (defn choose-initial-medoids
   "Randomly chooses a set of medoids to start out with."

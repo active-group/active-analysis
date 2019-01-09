@@ -10,7 +10,9 @@
     (is (= 2.0
            (k-medoids/dissimilarity 1 3 dissimilarities)))
     (is (= 11.0
-           (k-medoids/dissimilarity -4 7 dissimilarities)))))
+           (k-medoids/dissimilarity -4 7 dissimilarities)))
+    (is (= 0.0
+           (k-medoids/dissimilarity 7 7 dissimilarities)))))
 
 (deftest t-dissimilarity-sum
   (let [xs [1 2 -3 7]
