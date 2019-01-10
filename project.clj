@@ -3,7 +3,7 @@
   :url "https://github.com/active-group/active-analytics"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.9.0"]
+  :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/test.check "0.10.0-alpha3"]
                  ;;[org.nd4j/nd4j-native-platform "0.9.1"]
                  [uncomplicate/neanderthal "0.20.4"]
