@@ -87,12 +87,14 @@
   iteratively choosing points which minimize dissimilarity."
   [xs dissimilarity-fn k]
   (let [first-medoid (first-pam-medoid xs dissimilarity-fn)]
-    (loop [medoids #{first-medoid}]
+    (loop [medoids #{first-medoid}
+           residual-data (remove (partial = first-medoid) xs)]
       (if (= (count medoids)
              k)
         medoids
-        (recur (conj medoids
-                     (next-pam-medoid xs medoids dissimilarity-fn)))))))
+        (let [next-medoid (next-pam-medoid residual-data medoids dissimilarity-fn)]
+          (recur (conj medoids next-medoid)
+                 (remove (partial = next-medoid) residual-data)))))))
 
 (defn nearest-medoid
   "Finds the medoid that is closest to a point `x`."
