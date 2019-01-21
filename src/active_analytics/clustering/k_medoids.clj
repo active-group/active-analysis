@@ -33,6 +33,14 @@
                xs))
      (dissimilarity-fn x x)))
 
+(defn find-medoid
+  "Finds the medoid of a set of data points `xs`, that is,
+  the point with the lowest sum of dissimilarities."
+  [xs dissimilarity-fn]
+  (apply min-key
+         #(dissimilarity-sum % xs dissimilarity-fn)
+         xs))
+
 (defn choose-initial-medoids-randomly
   "Randomly chooses a set of medoids to start out with."
   [xs k]
@@ -40,13 +48,6 @@
        shuffle
        (take k)
        (into #{})))
-
-(defn first-pam-medoid
-  "Determines the first medoid for the PAM BUILD process."
-  [xs dissimilarity-fn]
-  (apply min-key
-         #(dissimilarity-sum % xs dissimilarity-fn)
-         xs))
 
 (defn min-medoid-distance
   "Calculates the distance to the closest medoid."
@@ -86,7 +87,7 @@
   this greedily finds an initial set of medoids by
   iteratively choosing points which minimize dissimilarity."
   [xs dissimilarity-fn k]
-  (let [first-medoid (first-pam-medoid xs dissimilarity-fn)]
+  (let [first-medoid (find-medoid xs dissimilarity-fn)]
     (loop [medoids #{first-medoid}
            residual-data (remove (partial = first-medoid) xs)]
       (if (= (count medoids)
@@ -110,13 +111,7 @@
   (group-by #(nearest-medoid % medoids dissimilarity-fn)
             xs))
 
-(defn find-medoid
-  "Finds the medoid of a set of data points `xs`, that is,
-  the point with the lowest sum of dissimilarities."
-  [xs dissimilarity-fn]
-  (apply min-key
-         #(dissimilarity-sum % xs dissimilarity-fn)
-         xs))
+
 
 (defn step
   "Calculates the next generation of medoids from the current one."
