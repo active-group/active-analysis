@@ -1,4 +1,4 @@
-(defproject de.active-group/active-analytics "0.3.0"
+(defproject de.active-group/active-analytics "0.4.0-SNAPSHOT"
   :description "Active Analytics: Clojure data analysis algorithms in use at Active Group"
   :url "https://github.com/active-group/active-analytics"
   :license {:name "Eclipse Public License"
