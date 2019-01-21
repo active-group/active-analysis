@@ -165,9 +165,11 @@
         initial-medoids (case medoid-init-mode
                           :random (choose-initial-medoids-randomly xs k)
                           :pam (pam-build xs dissimilarity-fn k))]
-    (loop [medoids initial-medoids]
+    (loop [medoids initial-medoids
+           i 1]
       (let [next-medoids (step xs medoids dissimilarity-fn)]
         (if (= medoids
                next-medoids)
-          {:clusters (vals (cluster xs medoids dissimilarity-fn))}
-          (recur next-medoids))))))
+          {:clusters (vals (cluster xs medoids dissimilarity-fn))
+           :iterations i}
+          (recur next-medoids (inc i)))))))
