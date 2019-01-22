@@ -59,12 +59,6 @@
              (into #{}
                    (:clusters result)))))))
 
-(deftest t-first-pam-medoid
-  (let [xs [-8 -5 0 2 9]
-        dissimilarity-fn (k-medoids/dissimilarity-function xs test-util/real-distance true)]
-    (is (= 0
-           (k-medoids/first-pam-medoid xs dissimilarity-fn)))))
-
 (deftest t-min-medoid-distance
   (let [xs [[1 4] [-3 1] [0 1] [2 0] [5 17] [3 3] [1 1]]
         dissimilarity-fn (k-medoids/dissimilarity-function xs (test-util/p-distance 1) true)]
